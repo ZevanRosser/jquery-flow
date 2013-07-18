@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script>
+      $(function(){
+        
+        
+        var docContent = $(".docContent");
+        
+        function logFlowApi(){
+          $.getJSON("flow-docs.json", function(docs){
+            var cls;
+            for (var i in docs.content){
+              (i.match(/Title/)) ? cls = "title box" : cls = "box";
+              docContent.append("<div class='"+cls+"'>" + docs.content[i] + "<\/div>");
+            }
+          });
+        }
+        logFlowApi();
+        
+      });
+    </script>
+    <style>
+      *{
+        margin : 0px;
+        padding : 0px; 
+      }
+      body{
+        font-family : Helvetica, sens-serif; 
+        color : #333;
+        padding : 20px;
+      }
+      .content{
+        max-width : 1024px;
+        margin : 0 auto; 
+      }
+      .box{
+        border : 1px solid #ccc;
+        padding : 20px;
+        margin : 10px; 
+      }
+      p{
+        margin-top : 10px; 
+        color : #555;
+      }
+      p b{
+        color : #365f87;
+      }
+      p i{
+        color : #365f87;
+        font-weight : bold;
+      }
+      .title{
+        background : #eee;
+      }
+      .red{
+        color : red; 
+      }
+      
+    </style>
+  </head>
+  
+  <body>
+    <div class="content">
+    <h1>jQuery.flow Docs</h1>
+    <div class="docContent"></div>
+    </div>
+  </body>
+</html>

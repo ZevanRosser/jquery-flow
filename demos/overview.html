@@ -6,56 +6,93 @@
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="../jquery.flow.js"></script>
     <script>
-     $(function(){
-       
-       
-       
-       $.flow.show(true);
-       
-       function Reciever(){
-         
-         $.flow(this)
-          .receive("SomeEvent", this.someMethod)
-          .once("OneTimeEvent", this.someMethod);
-         
-         $("button").recieve("click", this.click, {someData:"click data"});
-         $("h1").once("click", this.click);
-       }
-       Reciever.prototype.someMethod = function(e, data){
-          $.flow.clear("SomeEvent");
-       };
-       Reciever.prototype.oneTime = function(e, data){
-         console.log("once", e); 
-       }
-       Reciever.prototype.click = function(e, data){
-         
-       };
-       
-       function Sender(){
-         
-         $.flow(this)
-          .send("SomeEvent", {someData:"data sent"})
-          .send("OneTimeEvent");
-         
-       }
-       
-       
-       var reciever = new Reciever();
-       
-       var sender = new Sender();
-       
-       $("button").click(function(){
-         window.open("data:text/html;charset=utf-8,<pre>" + encodeURIComponent($.flow.fullLog())+"<\/pre>");
-       });
-       
+      $(function(){
+        
+        var body = $("body");
+            
+        
+        $.flow.show(true, "overview.json");
+        
+        $.flow.logDocs();
+        
 
-     });
+        function Reciever(){
+          
+          this.normal = $(".normal");
+          this.once = $(".once");
+          this.unreceive = $(".unreceive");
+          
+          $.flow(this)
+            .receive("NormalEvent", this.someMethod)
+            .once("OneTimeEvent", this.oneTime);
+          
+          this.normal.recieve("click", this.click, {someData:"click data"});
+          this.once.once("click", this.oneTimeClick);
+          this.unreceive.once("click", this.unreceiveClick); 
+        }
+        
+        Reciever.prototype = {
+          constructor : Reciever, 
+          someMethod : function(e, data){
+            $.flow.log(" - someMethod() called in response to NormalEvent");
+            body.append("NormalEvent recieved...<br/>");
+          },
+          oneTime : function(e, data){
+            $.flow.log(" - oneTime() called in response to OneTimeEvent");
+          },
+          oneTimeClick : function(){
+            $.flow.log(" - oneTimeClick() called in response to click");
+            this.once.text("clicked and inactive now");
+          },
+          click : function(e, data){
+            window.open("data:text/html;charset=utf-8,<pre>" + encodeURIComponent($.flow.fullLog())+"<\/pre>");
+          },
+          unreceiveClick : function(){
+            $.flow.log(" - unreceive() called in response to click");
+            $.flow.unreceive("NormalEvent");
+            body.append("NormalEvent is no longer being recieved...<br/>");
+          }
+        };
+        
+        function Sender(){
+          
+          $.flow(this)
+            .send("OneTimeEvent");
+          
+          this.sendNormalEvent();
+          setInterval(this.sendNormalEvent, 5000);
+          
+        }
+        Sender.prototype.sendNormalEvent = function(){
+          $.flow.send("NormalEvent", {someData:"data sent"})
+            };
+        
+        
+        var reciever = new Reciever();
+        
+        var sender = new Sender();
+        
+        
+        
+        
+      });
     </script>
     <style>
+      button{
+        display : block;
+      }
+      pre{
+        white-space : pre-wrap; 
+      }
     </style>
   </head>
   <body>
-    <button>flow</button>
-    <h1>Test</h1>
+    <h1>jQuery.flow Overview</h1>
+    <button class="normal">click me to see the flow log</button>
+    <button class="once">click me once</button>
+    <button class="unreceive">unreceive NormalEvent</button>
+    <hr>
+    <div class="docs"></div>
+    <hr>
   </body>
 </html>

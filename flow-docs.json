@@ -1,0 +1,50 @@
+
+
+{
+  "content" : {
+    "infoTitle" : "<p><b>jQuery.flow</b> is a plugin for use with the observer pattern. It handles scope issues when calling handler methods of a Class. It forces the scope of any handler method to point to the instance of the Class. <p><b>jQuery.flow</b> keeps track of the event flow for debugging. Detailed logs describing event flow can be displayed to the console, or returned as a string.</p><p>Polling?</p>",
+      
+    "debugTitle" : "<h2>Debug Methods</h2><p>Call the following methods using:</p><br/> <pre>$.flow.methodName()</pre>",
+      "show" : "<b>show(showFlowLogs [, pathToDocumentation])</b><p>for debugging, will log the flow of events in the console.\nPass true to showFlowLogs to see event flow in the console. Set pathToDocumentation to a json file that documents all your events.</p>",
+        
+        "fullLog" : "<b>fullLog()</b><p> returns the full flow logs, only works if the <b>show()</b> method <b>showFlowLogs</b> argument was passed true.</p>", 
+          "logDocs" : "<b>logDocs()</b><p>if you passed the <b>pathToDocumentation</b> argument to <b>show()</b>, this method will read through it and display the documentation for your events in the console. See <i>demo/overview.json</i> for the json format.</p>",
+            
+            "log" : "<b>log(message[, noFlow])</b><p>displays a message in the console with <b>\"Flow :\"</b> prepended to it. Calls to <b>log()</b> will become part of the return value for <b>fullLog()</b>. The <b>noFlow</b> argument will prevent <b>\"Flow :\"</b> from being prepended to the message if set to true.</p>",
+              "eventFlowTitle" : "<h2>Register an Object with $.flow()</h2>",
+                "flow" : "<b>flow(class)</b><p>Registers a class a sender/reciever of events.<br/><br/>For example :</p><br/><pre>function MyObject()<br/>&nbsp;&nbsp;$.flow(this);<br/>}</pre>",
+                
+                  
+              "globalEventsTitle" : "<h2>Global Events</h2><p>Call the following methods using:</p><br/> <pre>$.flow.methodName()</pre>",
+                
+                "send" : "<b>send(eventName [,dataObject])</b> <p>dispatches an event using <b>$.event.trigger()</b> internally.</p>",
+                
+                  "recieve" : "<b>recieve(eventName, handlerMethod)</b> <p>listens an for event and runs a handler method in response. Note that the scope of the handler method will be forced to reference the registered class instance.</p>",
+                    
+                    "once" : "<b>once(eventName, handlerMethod)</b><p>listens for an event and then unsubscribes the listener class from the event after the first time the handler mmethod is called. Note that the scope of the handler method will be forced to reference the registered class instance.",
+                      
+                      "unreceive" : "<b>unreceive(eventName [,handlerMethod)</b><p>unsubscribes a registered class from an event.",
+                        
+                        "jQueryEventsTitle" : "<h2>jQuery Object Events</h2><p>Call the following methods using:</p><br/> <pre>$('selector').methodName()</pre>",
+                
+                
+                  "$.fn.recieve" : "<b>recieve(eventName, handlerMethod)</b><p>listens for an event and runs a handler method in response. Note that <b>eventName</b> corresponds to any jQuery event, such as \"click\" or \"keyup\". The point of this method is that it forces the scope of the handler function to be set to the registered class instance.</p>",
+                    
+                    "$.fn.once" : "<b>once(eventName, handlerMethod)</b><p>listens for an event and then unsubscribes the listener class from the event after the first time it occurs. Note that <b>eventName</b> corresponds to any jQuery event, such as \"click\" or \"keyup\". The point of this method is that it forces the scope of the handler function to be set to the registered class instance.",
+                      
+                      "$.fn.unreceive" : "<b>unreceive(eventName [,handlerMethod)</b><p>unsubscribes a registered class from an event.",
+                        
+                        "internalTitle" : "<h2 class='red'>Internal Methods</h2><p><b>jQuery.flow</b> contains a few internal methods that you may want to be aware of. They can be called using <b>$.flow.methodName()</b></p>",
+                          
+                          "received" : "<b>recieved</b><p>a handler that is added for all events. This enableds <b>jQuery.flow</b> to log every event. Listeners using this function as a handler method are removed when <b>unregister</b> is called.</p>",
+                            
+                            "recievedOnce" : "<b>recievedOnce</b><p> identical to <b>recieved()</b> (see above) except it is added to listeners registered with <b>once()</b></p>",
+                            
+                            "getObjectName" : "<b>getObjectName(classInstance/this)</b><p>obtains the name of a class from a class instance.</p>"
+                          
+                         
+                        
+                        
+                
+                }
+}

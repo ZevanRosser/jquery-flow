@@ -1,6 +1,6 @@
 /*
 
-  jquery.flow...
+jquery.flow...
 
 */
 
@@ -10,6 +10,8 @@
       doc = $(document), 
       show = false,
       fullLog = "",
+      docs,
+      bar = "====================================",
       
       flow = $.flow = function(context){
         
@@ -30,14 +32,38 @@
   };
   
   
-  flow.show = function(mode){
+  flow.show = function(mode, documentation){
     show = mode;
     
-    flow.log("====================================", true)
-        .log("Begin Flow Session : " + new Date(), true)
-        .log("====================================", true);
+    flow.log(bar, true)
+      .log("Begin Flow Session : " + new Date(), true)
+      .log(bar, true);
+    
+    if (documentation && mode){
+      $.getJSON(documentation, function(data){
+        docs = data;
+        flow.log("docs loaded");
+      });
+    }
     
     return flow;
+  };
+  
+  flow.logDocs = function(){
+    
+    var checkDocsLoaded = setInterval(function(){
+      if (docs){
+        console.log(bar);
+        console.log(docs.title);
+        console.log(bar);
+        for (var i in docs.flowEvents){
+          console.log(i , ":", docs.flowEvents[i]);
+        }
+        clearInterval(checkDocsLoaded);
+        console.log(bar);
+      }
+    }, 100);
+    
   };
   
   flow.log = function(message, noLabel){
@@ -86,11 +112,30 @@
     
   };
   
+  flow.unreceive = function(name, method){
+    console.log("hi");
+    if (!method){
+      doc.off(name); 
+    }else{
+      doc.off(name, method); 
+      doc.off(name, flow.received);
+    }
+    flow.log("unrecieve called... results:")
+      .log(" - stop recieving \"" + name  + "\"");
+    return flow;
+  };
+  
+  $.fn.unreceive = function(name){
+    this.trigger.apply(this, arguments);
+    flow.log("unrecieve called... results:")
+      .log(" - stop recieving \"" + name  + "\"");
+  };
+  
   $.fn.once = function(name, method, data){
     
     if (!data) data = {};
-    doc.one(name, $.proxy(flow.receivedOnce, ctx));
-    doc.one(name, $.proxy(method, ctx));
+    this.one(name, $.proxy(flow.receivedOnce, ctx));
+    this.one(name, $.proxy(method, ctx));
     
     return this;
   };
@@ -98,20 +143,7 @@
   $.fn.recieve = function(name, method, data){
     if (!data) data = {};
     this.on(name, $.proxy(method, ctx, data));
-    
     return this;
   };
-  
-  flow.clear = function(name, method){
-    if (!method){
-      doc.off(name); 
-    }else{
-      doc.off(name, method); 
-      doc.off(name, flow.received);
-    }
-    flow.log("clear called... results:")
-        .log(" - stop recieving \"" + name  + "\"");
-    return flow;
-  };
-  
+ 
 })(jQuery);
