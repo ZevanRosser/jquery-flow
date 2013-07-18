@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="../jquery.flow.js"></script>
+    <script>
+     $(function(){
+       
+       
+       
+       $.flow.show(true);
+       
+       function Reciever(){
+         
+         $.flow(this)
+          .receive("SomeEvent", this.someMethod)
+          .once("OneTimeEvent", this.someMethod);
+         
+         $("button").recieve("click", this.click, {someData:"click data"});
+         $("h1").once("click", this.click);
+       }
+       Reciever.prototype.someMethod = function(e, data){
+          $.flow.clear("SomeEvent");
+       };
+       Reciever.prototype.oneTime = function(e, data){
+         console.log("once", e); 
+       }
+       Reciever.prototype.click = function(e, data){
+         
+       };
+       
+       function Sender(){
+         
+         $.flow(this)
+          .send("SomeEvent", {someData:"data sent"})
+          .send("OneTimeEvent");
+         
+       }
+       
+       var reciever = new Reciever();
+       
+       var sender = new Sender();
+       
+       $("button").click(function(){
+         window.open("data:text/html;charset=utf-8,<pre>" + encodeURIComponent($.flow.fullLog())+"<\/pre>");
+       });
+       
+
+     });
+    </script>
+    <style>
+    </style>
+  </head>
+  <body>
+    <button>flow</button>
+    <h1>Test</h1>
+  </body>
+</html>
