@@ -6,6 +6,10 @@ $(NoteApp.init = function(){
   $.flow.show(true, "json/docs.json");
   
   NoteApp.body = $("body");
+  
+  NoteApp.mainViewTemplate = Mustache.compile($("#main-view").html());
+  NoteApp.formViewTemplate = Mustache.compile($("#form-view").html());
+  NoteApp.noteViewTemplate = Mustache.compile($("#note-view").html());
 
   var dataLoader = new NoteApp.DataLoader("json/copy.json"), 
       mainView = new NoteApp.MainView(),
@@ -18,8 +22,7 @@ $(NoteApp.init = function(){
   NoteApp(function DataLoader(url){
     $.flow(this)
      .flow("getJSON", url, this.onDataLoaded);
- 
-    
+
   });
   
   NoteApp.DataLoader.prototype.onDataLoaded = function(data){
@@ -30,26 +33,33 @@ $(NoteApp.init = function(){
     $.flow(this)
      .receive("DataLoaded", this.onDataLoaded);
     
-    this.tmpl = Mustache.compile($("#main-view").html());
+    
   });
  
   NoteApp.MainView.prototype.onDataLoaded = function(e, data){
-    NoteApp.body.append(this.tmpl(data.copy));
+    NoteApp.body.append(NoteApp.mainViewTemplate(data.copy));
   };
   
   NoteApp(function FormView(){
     $.flow(this)
      .receive("DataLoaded", this.onDataLoaded);
-    this.tmpl = Mustache.compile($("#form-view").html());
+    
+    this.el;
+     
   });
   
   NoteApp.FormView.prototype.onDataLoaded = function(e, data){
-    NoteApp.body.append(this.tmpl(data.copy));
+    this.el = NoteApp.body.append(NoteApp.formViewTemplate(data.copy));
+    this.notes = this.el.find(".notes");
+    this.init();
   }; 
+  NoteApp.FormView.prototype.init = function(){
+    //this.el.find(".form").
+  };
   
   
-  NoteApp(function NoteView(){
-    
+  NoteApp(function NoteView(data){
+    this.el = NoteApp.noteViewTemplate(data);
   });
   
  
