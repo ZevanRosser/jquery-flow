@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/theme.css">
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="../../jquery.flow.js"></script>
+    <script src="js/note-app.js"></script>
+    <script src="js/mustache.js"></script>
+  </head>
+  <body>
+    
+    <script id="header-view" type="text/html">
+      <h2>{{title}}</h2>
+      <p>{{description}}</p>
+    </script>
+    
+    <script id="form-view" type="text/html">
+      <div class="form-container">
+        <form class="form">
+          <input class="title" type="text" />
+          <textarea class="note-content"></textarea>
+          <button class="save-note">{{saveNoteLabel}}</button>
+        </form>
+      </div>
+    </script>
+    
+    <script id="note-view" type="text/html">
+      <div class="note">
+        <button class="ex">&time;</button>
+        <h1>{{title}}</h1>
+        <p class="description">{{description}}}</p>
+        <input class="editable-description" type="text" />
+      </div>
+    </script>
+    
+  </body>
+</html>

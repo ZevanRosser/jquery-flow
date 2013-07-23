@@ -1,0 +1,7 @@
+{
+  "title" : "Simple Note App",
+  "description" : "This is a note app that makes use of jQuery.flow",
+  "formView" : {
+    "saveNoteLabel" : "&plus;"
+   }
+}

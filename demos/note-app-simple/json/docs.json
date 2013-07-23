@@ -1,0 +1,8 @@
+{
+  "title" : "Simple Note App : Event Documentation",
+  "flowEvents" : {
+   
+    "NormalEvent" : "Just a dummy normal event",
+    "OneTimeEvent" : "An example of a one time event"
+  } 
+}

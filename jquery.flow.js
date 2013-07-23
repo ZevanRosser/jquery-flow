@@ -15,22 +15,42 @@ jquery.flow...
       
       flow = $.flow = function(context){
         
-        ctx = context;
-        flow.log("registered " + currContext());
+        if (typeof context == "string"){
+          var args = Array.prototype.slice.call(arguments, 0); 
+          args.shift();
+          $[context].apply(ctx, args);
+        }else{
+          ctx = context;
+          flow.log("registered " + currContext());
+        }
         
         return flow;
       };
+  
+  flow.flow = flow;
   
   function currContext(){
     return flow.getObjectName(ctx);
   };
   
-  flow.getObjectName = function(context){
-    var objectName = context.constructor.toString().match(/function (.*?)\(/);
-    return (objectName.length > 1) ? "\"" + objectName[1] + "\"" : "Unknown Sender : " + objectName;
+  flow.getObjectName = function(context, notInstance){
+    if (!notInstance){
+      context = context.constructor; 
+    }
+    var objectName = context.toString().match(/function (.*?)\(/);
+    return (objectName.length > 1) ? objectName[1] : "Unknown Sender : " + objectName;
     
   };
   
+  flow.app = function(constructorFunction){
+    var app = function(constructorFunction){
+      var name = flow.getObjectName(constructorFunction, true);
+      app[name] = constructorFunction;
+      flow.log("addeding class " + name);
+      flow.log(arguments.callee,"zzz");
+    };
+    return app;
+  };
   
   flow.show = function(mode, documentation){
     show = mode;
@@ -112,8 +132,10 @@ jquery.flow...
     
   };
   
+ 
+  
   flow.unreceive = function(name, method){
-    console.log("hi");
+
     if (!method){
       doc.off(name); 
     }else{
@@ -145,5 +167,5 @@ jquery.flow...
     this.on(name, $.proxy(method, ctx, data));
     return this;
   };
- 
+  
 })(jQuery);
