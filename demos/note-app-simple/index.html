@@ -12,19 +12,21 @@
   </head>
   <body>
     
-    <script id="header-view" type="text/html">
+    <script id="main-view" type="text/html">
       <h2>{{title}}</h2>
       <p>{{description}}</p>
     </script>
     
     <script id="form-view" type="text/html">
+      {{#formView}}
       <div class="form-container">
         <form class="form">
-          <input class="title" type="text" />
-          <textarea class="note-content"></textarea>
-          <button class="save-note">{{saveNoteLabel}}</button>
+          <input class="title" type="text" /><br/>
+          <textarea class="note-content"></textarea><br/>
+          <button class="save-note">{{{saveNoteLabel}}}</button>
         </form>
       </div>
+      {{/formView}}
     </script>
     
     <script id="note-view" type="text/html">

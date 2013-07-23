@@ -46,7 +46,7 @@ jquery.flow...
     var app = function(constructorFunction){
       var name = flow.getObjectName(constructorFunction, true);
       app[name] = constructorFunction;
-      flow.log("addeding class " + name);
+      flow.log("adding class " + name);
       flow.log(arguments.callee,"zzz");
     };
     return app;
@@ -132,10 +132,8 @@ jquery.flow...
     
   };
   
- 
-  
   flow.unreceive = function(name, method){
-
+    
     if (!method){
       doc.off(name); 
     }else{

@@ -16,6 +16,10 @@
                 
                   "flow2" : "<b>flow(functionName [, args...])</b><p>Runs a method of the jQuery ($) object such as <b>$.post()</b>, <b>$.getJSON()</b> etc...<br/><br/>For example :<br/><br/></p><pre>$.flow(\"getJSON\", this.handlerFunction)</pre>",
                   
+                    "TrackingClassesTitle" : "<h2>Tracking Classes</h2><p>How to track dynamically class names using flow.</p>",
+                      
+                      "flow.app" : "<b>flow.app()</b><p>Depending on how you define your classes, you may want to use <b>$.flow.app()</b>. Basically, if you are namespacing your classes you will probably want to use <b>$.flow.app()</b> Like this:</p><br/><br/><pre>window.MyApp = $.flow.app();\n\nMyApp(function SomeClass(){\n  $.flow(this);\n});\n\nMyApp.SomeClass.prototype.someMethod = function(){\n};</pre><p>If you are not namespacing you probably won't need this. See <b>demos/overview.html</b> for an example.",
+                      
               "globalEventsTitle" : "<h2>Global Events</h2><p>Call the following methods using:</p><br/> <pre>$.flow.methodName()</pre>",
                 
                 "send" : "<b>send(eventName [,dataObject])</b> <p>dispatches an event using <b>$.event.trigger()</b> internally.</p>",
